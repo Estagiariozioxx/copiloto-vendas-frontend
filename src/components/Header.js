@@ -1,15 +1,17 @@
+// src/components/Header.js
 import React from "react";
+import { FaSignOutAlt } from "react-icons/fa";
 
 const Header = ({ onLogout }) => {
   return (
     <header className="app-header">
       <div className="header-content">
-        {/* Espaço à esquerda, se quiser colocar logo ou ícone */}
-        <div className="header-left"></div>
-
+        <div className="header-left">
+          {/* Aqui você pode colocar um logo ou deixar vazio */}
+        </div>
         <h1 className="header-title">COPILOTO DE VENDAS</h1>
-
         <button className="logout-btn" onClick={onLogout}>
+          <FaSignOutAlt style={{ marginRight: "8px" }} />
           Sair
         </button>
       </div>

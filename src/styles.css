@@ -7,13 +7,31 @@ body {
 }
 
 /* Layout principal */
-.app {
+/*.app {
   display: flex;
   height: 100vh;
-  padding-top: 70px; /* Ajuste conforme a altura do header */
+  padding-top: 70px; 
+}*/
+
+.app {
+  display: flex;
+  flex-direction: column;
+  height: 100vh;
+  margin: 0;
 }
 
+
 /* Sidebar */
+/*.sidebar {
+  width: 280px;
+  background: #1e1e2f;
+  padding: 20px;
+  display: flex;
+  flex-direction: column;
+  box-shadow: 2px 0 5px rgba(0, 0, 0, 0.1);
+}*/
+
+/* Sidebar mantém suas regras, mas adiciona flex-shrink para não encolher */
 .sidebar {
   width: 280px;
   background: #1e1e2f;
@@ -21,6 +39,7 @@ body {
   display: flex;
   flex-direction: column;
   box-shadow: 2px 0 5px rgba(0, 0, 0, 0.1);
+  flex-shrink: 0; 
 }
 
 .new-chat-btn {
@@ -86,6 +105,8 @@ li:hover {
 
 /* Chat */
 /* Ajuste no container do chat */
+
+/*
 .chat-container {
   flex: 1;
   display: flex;
@@ -93,9 +114,19 @@ li:hover {
   padding: 20px;
   background: white;
   border-radius: 10px;
-  /*margin: 20px;*/
+  /*margin: 20px;
   box-shadow: 0px 4px 10px rgba(0, 0, 0, 0.1);
-  position: relative; /* Permite que o input fique dentro do chat */
+  position: relative;  Permite que o input fique dentro do chat 
+}*/
+
+.chat-container {
+  flex: 1;
+  display: flex;
+  flex-direction: column;
+  padding: 20px;
+  background: white;
+  box-shadow: 0px 4px 10px rgba(0, 0, 0, 0.1);
+  overflow: hidden; /* Impede que o chat "estoure" a tela */
 }
 
 h2 {
@@ -105,15 +136,25 @@ h2 {
 }
 
 /* Mensagens */
-.messages {
+/*.messages {
   flex: 1;
   overflow-y: auto;
   padding: 10px;
   border-radius: 10px;
-  /*background: #f8f9fa;*/ 
+  background: #f8f9fa; 
   display: flex;
   flex-direction: column;
   gap: 10px;
+}*/
+
+.messages {
+  flex: 1; /* Ocupa todo o espaço disponível */
+  overflow-y: auto; /* Scroll interno */
+  padding: 10px;
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+  /* Você pode remover o background se quiser que fique branco */
 }
 
 .message {
@@ -149,21 +190,45 @@ h2 {
 }
 
 /* Container de entrada de mensagem */
+
+/*
 .input-container {
   display: flex;
   align-items: center;
   justify-content: center;
   width: 100%;
- /* padding: 12px;*/
+ /* padding: 12px;
  padding: 10px 0px 0px 0px;
   background: white;
- /* box-shadow: 0 -2px 5px rgba(0, 0, 0, 0.1);*/
-  /*border-top: 1px solid #ddd;*/
-  position: relative; /* Alterado de absolute para relative */
-  bottom: 0; /* Removido o absolute para não sair do container */
+ /* box-shadow: 0 -2px 5px rgba(0, 0, 0, 0.1);
+  /*border-top: 1px solid #ddd;
+  position: relative; /* Alterado de absolute para relative 
+  bottom: 0; /* Removido o absolute para não sair do container 
 }
 
-/* Campo de entrada */
+/* Campo de entrada 
+.input-container input {
+  flex: 1;
+  max-width: 85%;
+  padding: 14px;
+  border: 1px solid #ccc;
+  border-radius: 25px;
+  font-size: 16px;
+  outline: none;
+  transition: 0.3s ease-in-out;
+  background: #f8f9fa;
+}*/
+
+.input-container {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  padding: 10px 0;
+  background: white;
+  flex-shrink: 0; /* Não encolhe */
+}
+
+/* Ajuste no input e botão, se necessário */
 .input-container input {
   flex: 1;
   max-width: 85%;
@@ -196,7 +261,6 @@ h2 {
   transition: 0.3s ease;
 }
 
-/* Efeito de hover no botão */
 .input-container button:hover {
   background: #0056b3;
 }
@@ -217,7 +281,12 @@ h2 {
     padding: 10px;
   }
 }
-
+/* O título do chat */
+.chat-container h2 {
+  text-align: center;
+  color: #333;
+  margin-bottom: 20px;
+}
 /* Estilização da tela inicial */
 .start-screen {
   display: flex;
@@ -257,20 +326,37 @@ h2 {
 }
 
 /* Barra superior fixa */
+
+/*
 .app-header {
   width: 100%;
   padding: 15px 30px;
-  background: linear-gradient(135deg, #1e1e2f, #2c3e50); /* Gradiente escuro */
+  background: linear-gradient(135deg, #1e1e2f, #2c3e50); /* Gradiente escuro 
   box-shadow: 0 2px 5px rgba(0, 0, 0, 0.2);
   position: fixed;
   top: 0;
   left: 0;
-  z-index: 1000; /* Fica sobre o restante da tela */
+  z-index: 1000; /* Fica sobre o restante da tela 
+}*/
+
+.app-header {
+/*  width: 100%;*/
+  padding: 15px 30px;
+ /* background: linear-gradient(135deg, #1e1e2f, #2c3e50);*/
+  box-shadow: 0 2px 5px rgba(0, 0, 0, 0.2);
+  /* Removido position: fixed, top, left, z-index */
+  background: #1e1e2f;
 }
 
-.header-content {
-  max-width: 1200px; /* Centraliza se quiser um limite de largura */
+/*.header-content {
+  max-width: 1200px; /* Centraliza se quiser um limite de largura 
   margin: 0 auto;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+}*/
+
+.header-content {
   display: flex;
   align-items: center;
   justify-content: space-between;
@@ -306,3 +392,171 @@ h2 {
   background: #cc0000;
   transform: scale(1.05); /* Efeito de destaque no hover */
 }
+
+/* Container principal abaixo do header, ocupando todo o espaço restante */
+.main-content {
+  display: flex;
+  flex: 1; /* Ocupa todo o espaço vertical que sobrar */
+  overflow: hidden; /* Impede scroll da página */
+}
+
+
+/* ------------------ */
+/* ESTILOS DA TELA DE LOGIN */
+/* ------------------ */
+
+.login-container {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  height: 100vh; /* Tela cheia */
+  background: linear-gradient(135deg, #1e1e2f, #2c3e50); /* Fundo gradiente escuro */
+}
+
+.login-form {
+  display: flex;
+  background: #ffffff;
+  padding: 30px 40px;
+  border-radius: 10px;
+  box-shadow: 0 5px 15px rgba(0,0,0,0.3);
+  width: 320px;
+  text-align: center;
+  flex-direction: column;
+  align-items: center;
+}
+
+.login-form h2 {
+  margin-bottom: 10px;
+  color: #2c3e50;
+  font-size: 24px;
+}
+
+.login-form p {
+  margin-bottom: 20px;
+  color: #666;
+}
+
+.login-form input {
+  display: block;
+  width: 100%;
+  margin-bottom: 15px;
+  padding: 14px;
+  border-radius: 5px;
+  border: 1px solid #ccc;
+  font-size: 14px;
+  outline: none;
+}
+
+.login-form button {
+  width: 100%;
+  background: #007bff;
+  color: #fff;
+  padding: 14px;
+  border: none;
+  border-radius: 5px;
+  font-size: 16px;
+  cursor: pointer;
+  transition: background 0.3s ease;
+}
+
+.login-form button:hover {
+  background: #0056b3;
+}
+
+/* Área que agrupa os botões de editar e excluir */
+.chat-actions {
+  display: flex;
+  gap: 8px;
+  margin-left: 10px; /* Espaçamento do texto do chat */
+}
+
+/* Botão de editar */
+.edit-btn,
+.delete-btn {
+  background: none;
+  border: none;
+  color: white;
+  cursor: pointer;
+  font-size: 16px;  /* Tamanho do ícone */
+  padding: 4px;
+  border-radius: 4px;
+  transition: background 0.3s ease;
+}
+
+.edit-btn:hover,
+.delete-btn:hover {
+  background: rgba(255, 255, 255, 0.2);
+}
+
+
+/* Modal Overlay */
+.modal-overlay {
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  background: rgba(0, 0, 0, 0.5);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  z-index: 2000;
+}
+
+/* Modal Content */
+.modal-content {
+  background: #fff;
+  padding: 20px;
+  border-radius: 8px;
+  width: 300px;
+  text-align: center;
+  box-shadow: 0 5px 15px rgba(0, 0, 0, 0.3);
+}
+
+.modal-content h3 {
+  margin-bottom: 15px;
+  color: #2c3e50;
+}
+
+.modal-content input {
+  width: 90%;
+  padding: 10px;
+  margin-bottom: 15px;
+  border: 1px solid #ccc;
+  border-radius: 5px;
+  font-size: 16px;
+}
+
+/* Modal Actions */
+.modal-actions {
+  display: flex;
+  justify-content: space-between;
+}
+
+.modal-btn {
+  padding: 10px 15px;
+  border: none;
+  border-radius: 5px;
+  cursor: pointer;
+  font-size: 14px;
+  transition: background 0.3s ease;
+}
+
+.modal-btn.cancel {
+  background: #ff4d4d;
+  color: #fff;
+}
+
+.modal-btn.cancel:hover {
+  background: #cc0000;
+}
+
+.modal-btn.save {
+  background: #007bff;
+  color: #fff;
+}
+
+.modal-btn.save:hover {
+  background: #0056b3;
+}
+
