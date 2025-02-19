@@ -2,7 +2,7 @@ import React, { useState, useEffect } from "react";
 import Message from "./Message";
 import axios from "axios";
 
-const Chat = ({ chatName, messages, saveMessage }) => {
+const Chat = ({ chatId, chatName, messages, saveMessage }) => {
   const [input, setInput] = useState("");
   const [chatMessages, setChatMessages] = useState(messages || []);
   const [typedText, setTypedText] = useState("");
@@ -10,13 +10,13 @@ const Chat = ({ chatName, messages, saveMessage }) => {
 
   useEffect(() => {
     setChatMessages(messages || []);
-  }, [chatName, messages]);
+  }, [chatId, messages]);
 
   useEffect(() => {
-    if (!chatName) {
+    if (!chatId) {
       let timeoutId;
       let index = 1; // Começa em 1 para exibir o primeiro caractere imediatamente
-  
+
       const animateText = () => {
         if (index <= fullText.length) {
           setTypedText(fullText.slice(0, index));
@@ -30,40 +30,43 @@ const Chat = ({ chatName, messages, saveMessage }) => {
           }, 2000);
         }
       };
-  
+
       animateText();
-  
+
       return () => clearTimeout(timeoutId);
     }
-  }, [chatName]);
-  
-  
+  }, [chatId]);
 
   const sendMessage = async () => {
     if (!input.trim()) return;
 
     const userMessage = { text: input, sender: "user" };
     setChatMessages([...chatMessages, userMessage]);
-    saveMessage(chatName, userMessage);
+    saveMessage(chatId, userMessage);
     setInput("");
 
     try {
-      const response = await axios.post("http://localhost:5000/chat", { message: input });
+      const response = await axios.post(
+        "http://localhost:8000/chat",
+        { message: String(input), chat_id: String(chatId) },
+        { headers: { "Content-Type": "application/json" } }
+      );
       const botMessage = { text: response.data.response, sender: "bot" };
       setChatMessages((prev) => [...prev, botMessage]);
-      saveMessage(chatName, botMessage);
+      saveMessage(chatId, botMessage);
     } catch (error) {
-      const errorMessage = { text: "Erro ao conectar com o servidor", sender: "bot" };
+      const errorMessage = { text: String(error), sender: "bot" };
       setChatMessages((prev) => [...prev, errorMessage]);
-      saveMessage(chatName, errorMessage);
+      saveMessage(chatId, errorMessage);
     }
+    
   };
 
-  if (!chatName) {
+  if (!chatId) {
     return (
       <div className="chat-container start-screen">
         <h1>COPILOTO DE VENDAS</h1>
-        <p className="typing-effect">{typedText}</p> {/* Mantém o texto visível */}
+        <p className="typing-effect">{typedText}</p>
       </div>
     );
   }

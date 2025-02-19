@@ -1,4 +1,3 @@
-// src/App.js
 import React, { useState } from "react";
 import "./styles.css";
 import Login from "./components/Login";
@@ -7,74 +6,67 @@ import Sidebar from "./components/Sidebar";
 import Chat from "./components/Chat";
 
 const App = () => {
-  // Inicia deslogado para mostrar a tela de login
+  // Inicialmente deslogado para exibir a tela de login
   const [isLoggedIn, setIsLoggedIn] = useState(false);
+  // Cada chat é um objeto com id e name
+  const [chats, setChats] = useState([{ id: "chat-1", name: "Chat 1" }]);
+  // selectedChat armazenará o chat selecionado (objeto)
   const [selectedChat, setSelectedChat] = useState(null);
+  // O histórico de mensagens é indexado pelo id do chat
   const [chatHistories, setChatHistories] = useState({});
-  const [chats, setChats] = useState(["Chat 1"]);
 
   const handleLogin = () => {
     setIsLoggedIn(true);
   };
 
   const handleLogout = () => {
-    // Ao deslogar, retorna para a tela de login
     setIsLoggedIn(false);
   };
 
-  const handleSelectChat = (chatName) => setSelectedChat(chatName);
+  const handleSelectChat = (chat) => setSelectedChat(chat);
 
-  const saveMessage = (chatName, message) => {
+  const saveMessage = (chatId, message) => {
     setChatHistories((prev) => ({
       ...prev,
-      [chatName]: [...(prev[chatName] || []), message],
+      [chatId]: [...(prev[chatId] || []), message],
     }));
   };
 
   const addNewChat = () => {
-    const newChat = `Chat ${chats.length + 1}`;
+    const newChat = { id: "chat-" + (chats.length + 1), name: "Chat " + (chats.length + 1) };
     setChats([...chats, newChat]);
-    setChatHistories((prev) => ({ ...prev, [newChat]: [] }));
+    setChatHistories((prev) => ({ ...prev, [newChat.id]: [] }));
     setSelectedChat(newChat);
   };
 
   const deleteChat = (chatToDelete) => {
-    setChats(chats.filter((chat) => chat !== chatToDelete));
+    setChats(chats.filter((chat) => chat.id !== chatToDelete.id));
     setChatHistories((prev) => {
       const updatedHistories = { ...prev };
-      delete updatedHistories[chatToDelete];
+      delete updatedHistories[chatToDelete.id];
       return updatedHistories;
     });
-    if (selectedChat === chatToDelete) {
+    if (selectedChat && selectedChat.id === chatToDelete.id) {
       setSelectedChat(null);
     }
   };
 
-  const renameChat = (oldName, newName) => {
+  const renameChat = (oldChat, newName) => {
     setChats((prevChats) =>
-      prevChats.map((chat) => (chat === oldName ? newName : chat))
+      prevChats.map((chat) => (chat.id === oldChat.id ? { ...chat, name: newName } : chat))
     );
-    setChatHistories((prevHistories) => {
-      const updatedHistories = { ...prevHistories };
-      updatedHistories[newName] = updatedHistories[oldName];
-      delete updatedHistories[oldName];
-      return updatedHistories;
-    });
-    if (selectedChat === oldName) {
-      setSelectedChat(newName);
+    if (selectedChat && selectedChat.id === oldChat.id) {
+      setSelectedChat({ ...selectedChat, name: newName });
     }
   };
 
-  // Se não estiver logado, renderiza a tela de Login
   if (!isLoggedIn) {
     return <Login onLogin={handleLogin} />;
   }
 
-  // Se estiver logado, renderiza a aplicação principal
   return (
     <div className="app">
       <Header onLogout={handleLogout} />
-
       <div className="main-content">
         <Sidebar
           onSelectChat={handleSelectChat}
@@ -85,8 +77,9 @@ const App = () => {
           renameChat={renameChat}
         />
         <Chat
-          chatName={selectedChat}
-          messages={chatHistories[selectedChat] || []}
+          chatId={selectedChat ? selectedChat.id : null}
+          chatName={selectedChat ? selectedChat.name : ""}
+          messages={selectedChat ? chatHistories[selectedChat.id] || [] : []}
           saveMessage={saveMessage}
         />
       </div>

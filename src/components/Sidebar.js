@@ -1,16 +1,8 @@
-// src/components/Sidebar.js
 import React, { useState } from "react";
 import { FaTrash, FaEdit } from "react-icons/fa";
 import EditChatModal from "./EditChatModal";
 
-const Sidebar = ({
-  onSelectChat,
-  selectedChat,
-  chats,
-  addNewChat,
-  deleteChat,
-  renameChat,
-}) => {
+const Sidebar = ({ onSelectChat, selectedChat, chats, addNewChat, deleteChat, renameChat }) => {
   const [editingChat, setEditingChat] = useState(null);
 
   const handleEditChat = (chat) => {
@@ -32,13 +24,13 @@ const Sidebar = ({
         + Novo Chat
       </button>
       <ul>
-        {chats.map((chat, index) => (
+        {chats.map((chat) => (
           <li
-            key={index}
-            className={chat === selectedChat ? "selected-chat" : ""}
+            key={chat.id}
+            className={selectedChat && selectedChat.id === chat.id ? "selected-chat" : ""}
             onClick={() => onSelectChat(chat)}
           >
-            {chat}
+            {chat.name}
             <div className="chat-actions">
               <button
                 className="edit-btn"
@@ -64,7 +56,7 @@ const Sidebar = ({
       </ul>
       {editingChat && (
         <EditChatModal
-          chatName={editingChat}
+          chatName={editingChat.name}
           onSave={handleSaveEdit}
           onCancel={handleCancelEdit}
         />
