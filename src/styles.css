@@ -19,6 +19,9 @@ body {
   height: 100vh;
   margin: 0;
 }
+.message-text {
+  color: black !important;
+}
 
 
 /* Sidebar */
@@ -59,13 +62,13 @@ body {
   background: #0056b3;
 }
 
-ul {
+.sidebar ul {
   list-style: none;
   padding: 0;
   margin: 0;
 }
 
-li {
+.sidebar li {
   padding: 12px;
   cursor: pointer;
   border-radius: 5px;
@@ -78,7 +81,7 @@ li {
   margin-bottom: 12px;
 }
 
-li:hover {
+.sidebar li:hover {
   background: rgba(255, 255, 255, 0.2);
 }
 

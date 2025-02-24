@@ -6,13 +6,12 @@ import Sidebar from "./components/Sidebar";
 import Chat from "./components/Chat";
 
 const App = () => {
-  // Inicialmente deslogado para exibir a tela de login
   const [isLoggedIn, setIsLoggedIn] = useState(false);
-  // Cada chat é um objeto com id e name
+  // Inicializa com o primeiro chat já criado
   const [chats, setChats] = useState([{ id: "chat-1", name: "Chat 1" }]);
-  // selectedChat armazenará o chat selecionado (objeto)
+  // Variável para controlar o próximo ID (começa em 2, pois já existe chat-1)
+  const [nextChatId, setNextChatId] = useState(2);
   const [selectedChat, setSelectedChat] = useState(null);
-  // O histórico de mensagens é indexado pelo id do chat
   const [chatHistories, setChatHistories] = useState({});
 
   const handleLogin = () => {
@@ -33,10 +32,13 @@ const App = () => {
   };
 
   const addNewChat = () => {
-    const newChat = { id: "chat-" + (chats.length + 1), name: "Chat " + (chats.length + 1) };
+    // Usa o nextChatId para garantir a sequência
+    const newChat = { id: "chat-" + nextChatId, name: "Chat " + nextChatId };
     setChats([...chats, newChat]);
     setChatHistories((prev) => ({ ...prev, [newChat.id]: [] }));
     setSelectedChat(newChat);
+    // Incrementa o contador para o próximo chat
+    setNextChatId(nextChatId + 1);
   };
 
   const deleteChat = (chatToDelete) => {
@@ -53,7 +55,9 @@ const App = () => {
 
   const renameChat = (oldChat, newName) => {
     setChats((prevChats) =>
-      prevChats.map((chat) => (chat.id === oldChat.id ? { ...chat, name: newName } : chat))
+      prevChats.map((chat) =>
+        chat.id === oldChat.id ? { ...chat, name: newName } : chat
+      )
     );
     if (selectedChat && selectedChat.id === oldChat.id) {
       setSelectedChat({ ...selectedChat, name: newName });
@@ -79,7 +83,9 @@ const App = () => {
         <Chat
           chatId={selectedChat ? selectedChat.id : null}
           chatName={selectedChat ? selectedChat.name : ""}
-          messages={selectedChat ? chatHistories[selectedChat.id] || [] : []}
+          messages={
+            selectedChat ? chatHistories[selectedChat.id] || [] : []
+          }
           saveMessage={saveMessage}
         />
       </div>

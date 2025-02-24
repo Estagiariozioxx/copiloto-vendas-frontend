@@ -1,9 +1,10 @@
 import React from "react";
+import ReactMarkdown from "react-markdown";
 
 const Message = ({ text, sender }) => {
   return (
     <div className={`message ${sender}`}>
-      <p>{text}</p>
+      <ReactMarkdown >{text}</ReactMarkdown>
     </div>
   );
 };
