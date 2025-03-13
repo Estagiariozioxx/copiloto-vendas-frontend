@@ -192,6 +192,12 @@ h2 {
   border-bottom-left-radius: 20px;
 }
 
+.message.bot h1 {
+  font-size: 16px;
+
+}
+
+
 /* Container de entrada de mensagem */
 
 /*
